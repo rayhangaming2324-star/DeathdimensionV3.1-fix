@@ -1,0 +1,33 @@
+
+name: Build DeathDimension V3.1 FIX1
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Extract Source
+        run: unzip -o DeathDimensionV3.1-Source-FIX1.zip -d .
+
+      - name: Build Plugin
+        run: mvn -B clean package
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: DeathDimension-V3.1
+          path: target/DeathDimension-V3.jar
